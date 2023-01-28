@@ -123,16 +123,12 @@ func enablePre(ctx *log.Context, hEnv HandlerEnvironment, seqNum int) error {
 		return errors.Wrap(err, "failed to process sequence number")
 	} else if shouldExit {
 		ctx.Log("event", "exit", "message", "the script configuration has already been processed, will not run again")
-		//el := logging.New(nil)
-		ctx.Log("event", "message", "test", hEnv.HandlerEnvironment.LogFolder)
-		ctx.Log("event", "message", "test", hEnv.HandlerEnvironment.ConfigFolder)
-		utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(hEnv.HandlerEnvironment.LogFolder,
+		utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(downloadDir,
 			hEnv.HandlerEnvironment.ConfigFolder,
-			"custom-script",
+			"",
 			uint64(seqNum),
 			"\\d+.settings",
 			"%d.settings")
-		//settings.CleanUpSettings(el, hEnv.HandlerEnvironment.ConfigFolder)
 		os.Exit(0)
 	}
 	return nil
@@ -180,11 +176,7 @@ func enable(ctx *log.Context, h HandlerEnvironment, seqNum int) (string, error) 
 		ctx.Log("event", "enable failed")
 	}
 
-	//ctx.Log("event", "clearing setting files")
-	//el := logging.New(nil)
-	ctx.Log("event", "message", "test", h.HandlerEnvironment.LogFolder)
-	ctx.Log("event", "message", "test", h.HandlerEnvironment.ConfigFolder)
-	utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(h.HandlerEnvironment.LogFolder,
+	utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(downloadDir,
 		h.HandlerEnvironment.ConfigFolder,
 		"customscriptextension",
 		uint64(seqNum),
