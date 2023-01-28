@@ -10,7 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"time"
-	
+
 	utils "github.com/Azure/azure-extension-platform/pkg/utils"
 	"github.com/Azure/custom-script-extension-linux/pkg/seqnum"
 	"github.com/go-kit/kit/log"
@@ -127,7 +127,7 @@ func enablePre(ctx *log.Context, hEnv HandlerEnvironment, seqNum int) error {
 		utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(hEnv.HandlerEnvironment.LogFolder,
 			hEnv.HandlerEnvironment.ConfigFolder,
 			"customscriptextension",
-			seqNum,
+			uint(seqNum),
 			"\\d+.settings",
 			"%d.settings")
 		//settings.CleanUpSettings(el, hEnv.HandlerEnvironment.ConfigFolder)
@@ -183,7 +183,7 @@ func enable(ctx *log.Context, h HandlerEnvironment, seqNum int) (string, error) 
 	utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(h.HandlerEnvironment.LogFolder,
 		h.HandlerEnvironment.ConfigFolder,
 		"customscriptextension",
-		seqNum,
+		uint(seqNum),
 		"\\d+.settings",
 		"%d.settings")
 
