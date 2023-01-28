@@ -182,7 +182,7 @@ func enable(ctx *log.Context, h HandlerEnvironment, seqNum int) (string, error) 
 
 	//ctx.Log("event", "clearing setting files")
 	//el := logging.New(nil)
-	ctx.Log("event", "message", "test",(h.HandlerEnvironment.LogFolder)
+	ctx.Log("event", "message", "test", h.HandlerEnvironment.LogFolder)
 	ctx.Log("event", "message", "test", h.HandlerEnvironment.ConfigFolder)
 	utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(h.HandlerEnvironment.LogFolder,
 		h.HandlerEnvironment.ConfigFolder,
