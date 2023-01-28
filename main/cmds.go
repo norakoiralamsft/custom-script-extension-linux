@@ -124,9 +124,11 @@ func enablePre(ctx *log.Context, hEnv HandlerEnvironment, seqNum int) error {
 	} else if shouldExit {
 		ctx.Log("event", "exit", "message", "the script configuration has already been processed, will not run again")
 		//el := logging.New(nil)
+		ctx.Log(hEnv.HandlerEnvironment.LogFolder)
+		ctx.Log(hEnv.HandlerEnvironment.ConfigFolder)
 		utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(hEnv.HandlerEnvironment.LogFolder,
 			hEnv.HandlerEnvironment.ConfigFolder,
-			"customscriptextension",
+			"custom-script",
 			uint64(seqNum),
 			"\\d+.settings",
 			"%d.settings")
