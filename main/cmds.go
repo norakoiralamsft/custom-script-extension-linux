@@ -10,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+	"strconv"
 
 	utils "github.com/Azure/azure-extension-platform/pkg/utils"
 	"github.com/Azure/custom-script-extension-linux/pkg/seqnum"
