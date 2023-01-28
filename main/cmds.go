@@ -182,6 +182,8 @@ func enable(ctx *log.Context, h HandlerEnvironment, seqNum int) (string, error) 
 
 	ctx.Log("event", "clearing setting files")
 	//el := logging.New(nil)
+	ctx.Log(h.HandlerEnvironment.LogFolder)
+	ctx.Log(h.HandlerEnvironment.ConfigFolder)
 	utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(h.HandlerEnvironment.LogFolder,
 		h.HandlerEnvironment.ConfigFolder,
 		"customscriptextension",
@@ -207,11 +209,11 @@ func checkAndSaveSeqNum(ctx log.Logger, seq int, mrseqPath string) (shouldExit b
 		// sequence number.
 		return true, nil
 	}
-	ctx.Log("event", "mrseq not found", "message", "attempting to save config seqnum")
+	ctx.Log("event", "sequence num update", "message", "attempting to save config sequence num")
 	if err := seqnum.Set(mrseqPath, seq); err != nil {
 		return false, errors.Wrap(err, "failed to save sequence number")
 	}
-	ctx.Log("event", "seqnum saved", "path", mrseqPath)
+	ctx.Log("event", "seqeunce num saved", "path", mrseqPath)
 	return false, nil
 }
 
