@@ -124,8 +124,8 @@ func enablePre(ctx *log.Context, hEnv HandlerEnvironment, seqNum int) error {
 	} else if shouldExit {
 		ctx.Log("event", "exit", "message", "the script configuration has already been processed, will not run again")
 		//el := logging.New(nil)
-		ctx.Log(hEnv.HandlerEnvironment.LogFolder)
-		ctx.Log(hEnv.HandlerEnvironment.ConfigFolder)
+		ctx.Log("event", "message", "test", hEnv.HandlerEnvironment.LogFolder)
+		ctx.Log("event", "message", "test", hEnv.HandlerEnvironment.ConfigFolder)
 		utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(hEnv.HandlerEnvironment.LogFolder,
 			hEnv.HandlerEnvironment.ConfigFolder,
 			"custom-script",
@@ -180,10 +180,10 @@ func enable(ctx *log.Context, h HandlerEnvironment, seqNum int) (string, error) 
 		ctx.Log("event", "enable failed")
 	}
 
-	ctx.Log("event", "clearing setting files")
+	//ctx.Log("event", "clearing setting files")
 	//el := logging.New(nil)
-	ctx.Log(h.HandlerEnvironment.LogFolder)
-	ctx.Log(h.HandlerEnvironment.ConfigFolder)
+	ctx.Log("event", "message", "test",(h.HandlerEnvironment.LogFolder)
+	ctx.Log("event", "message", "test", h.HandlerEnvironment.ConfigFolder)
 	utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(h.HandlerEnvironment.LogFolder,
 		h.HandlerEnvironment.ConfigFolder,
 		"customscriptextension",
