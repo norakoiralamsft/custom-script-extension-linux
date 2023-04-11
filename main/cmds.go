@@ -11,8 +11,7 @@ import (
 	"path/filepath"
 	"time"
 
-	logging "github.com/Azure/azure-extension-platform/pkg/logging"
-	settings "github.com/Azure/azure-extension-platform/pkg/settings"
+	utils "github.com/Azure/azure-extension-platform/pkg/utils"
 	"github.com/Azure/custom-script-extension-linux/pkg/seqnum"
 	"github.com/go-kit/kit/log"
 	"github.com/pkg/errors"
@@ -124,8 +123,12 @@ func enablePre(ctx *log.Context, hEnv HandlerEnvironment, seqNum int) error {
 		return errors.Wrap(err, "failed to process sequence number")
 	} else if shouldExit {
 		ctx.Log("event", "exit", "message", "the script configuration has already been processed, will not run again")
-		el := logging.New(nil)
-		settings.CleanUpSettings(el, hEnv.HandlerEnvironment.ConfigFolder)
+		utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(downloadDir,
+			hEnv.HandlerEnvironment.ConfigFolder,
+			"",
+			uint64(seqNum),
+			"\\d+.settings",
+			"%d.settings")
 		os.Exit(0)
 	}
 	return nil
@@ -173,9 +176,12 @@ func enable(ctx *log.Context, h HandlerEnvironment, seqNum int) (string, error) 
 		ctx.Log("event", "enable failed")
 	}
 
-	ctx.Log("event", "clearing setting files")
-	el := logging.New(nil)
-	settings.CleanUpSettings(el, h.HandlerEnvironment.ConfigFolder)
+	utils.TryClearExtensionScriptsDirectoriesAndSettingsFilesExceptMostRecent(downloadDir,
+		h.HandlerEnvironment.ConfigFolder,
+		"customscriptextension",
+		uint64(seqNum),
+		"\\d+.settings",
+		"%d.settings")
 
 	msg := fmt.Sprintf("\n[stdout]\n%s\n[stderr]\n%s", string(stdoutTail), string(stderrTail))
 	return msg, runErr
@@ -195,11 +201,11 @@ func checkAndSaveSeqNum(ctx log.Logger, seq int, mrseqPath string) (shouldExit b
 		// sequence number.
 		return true, nil
 	}
-	ctx.Log("event", "mrseq not found", "message", "attempting to save config seqnum")
+	ctx.Log("event", "sequence num update", "message", "attempting to save config sequence num")
 	if err := seqnum.Set(mrseqPath, seq); err != nil {
 		return false, errors.Wrap(err, "failed to save sequence number")
 	}
-	ctx.Log("event", "seqnum saved", "path", mrseqPath)
+	ctx.Log("event", "seqeunce num saved", "path", mrseqPath)
 	return false, nil
 }
 
